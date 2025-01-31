@@ -336,6 +336,10 @@ func filterHeap(slice []fr.Element, sliceFirstIndex int, toRemove []int) (r []fr
 	return
 }
 
+// computeH is compatible with the R1CS-QAP reduction used by circom's snarkjs.
+// Unlike the original gnark implementation, snarkjs precomputes the Lagrange form of the powers of tau bases in a
+// domain twice as large, and h is computed as the odd coefficients of (AB-C) in that domain.
+// This implementation follows https://github.com/arkworks-rs/circom-compat.
 func computeH(a, b, w []fr.Element, domain *fft.Domain) []fr.Element {
 	nbConstraints, nbPublicWires := len(a), len(w)
 	n := int(domain.Cardinality)
